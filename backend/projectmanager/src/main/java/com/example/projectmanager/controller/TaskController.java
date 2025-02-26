@@ -16,13 +16,13 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    // Liste paginée des tâches
+
     @GetMapping
     public ResponseEntity<Page<Task>> getAllTasks(Pageable pageable) {
         return ResponseEntity.ok(taskService.getAllTasks(pageable));
     }
 
-    // Filtrer les tâches par titre ou statut avec pagination
+
     @GetMapping("/search")
     public ResponseEntity<Page<Task>> searchTasks(
             @RequestParam(required = false) String status,

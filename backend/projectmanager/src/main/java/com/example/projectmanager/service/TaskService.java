@@ -36,7 +36,7 @@ public class TaskService {
         return taskRepo.findAll(pageable);
     }
 
-    public Page<Task> getTasksByProjectId(Long projectId, Pageable pageable) { // Ajout ici !
+    public Page<Task> getTasksByProjectId(Long projectId, Pageable pageable) {
         return taskRepo.findByProject_Id(projectId, pageable);
     }
 

@@ -41,7 +41,7 @@ public class ProjectService {
 
     @Transactional
     public void deleteProject(Long id) {
-        taskRepo.deleteAll(taskRepo.findByProject_Id(id)); // Suppression des tâches liées
+        taskRepo.deleteAll(taskRepo.findByProject_Id(id));
         projectRepo.deleteById(id);
     }
 }

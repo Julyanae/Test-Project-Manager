@@ -56,7 +56,7 @@ public class ProjectController {
         return ResponseEntity.notFound().build();
     }
 
-    // ✅ Correction ici : Utilisation correcte de `taskService.getTasksByProjectId`
+
     @GetMapping("/{id}/tasks")
     public ResponseEntity<Page<Task>> getTasksByProject(@PathVariable Long id, Pageable pageable) {
         if (projectService.getProjectById(id).isEmpty()) {
