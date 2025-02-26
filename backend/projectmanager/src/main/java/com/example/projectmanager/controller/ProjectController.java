@@ -4,6 +4,9 @@ import com.example.projectmanager.model.Project;
 import com.example.projectmanager.model.Task;
 import com.example.projectmanager.service.ProjectService;
 import com.example.projectmanager.service.TaskService;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,19 +24,18 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<Project> getAllProjects() {
-        return projectService.getAllProjects();
+    public ResponseEntity<Page<Project>> getAllProjects(Pageable pageable) {
+        return ResponseEntity.ok(projectService.getAllProjects(pageable));
     }
-
 
     @PostMapping
-    public Project createProject(@RequestBody Project project) {
-        return projectService.saveProject(project);
+    public ResponseEntity<Project> createProject(@Valid @RequestBody Project project) {
+        Project savedProject = projectService.saveProject(project);
+        return ResponseEntity.ok(savedProject);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<Project> updateProject(@PathVariable Long id, @RequestBody Project updatedProject) {
+    public ResponseEntity<Project> updateProject(@PathVariable Long id, @Valid @RequestBody Project updatedProject) {
         return projectService.getProjectById(id)
                 .map(project -> {
                     project.setName(updatedProject.getName());
@@ -45,18 +47,29 @@ public class ProjectController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
-        projectService.deleteProject(id);
-        return ResponseEntity.ok().build();
+        if (projectService.getProjectById(id).isPresent()) {
+            projectService.deleteProject(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
-
+    // ✅ Correction ici : Utilisation correcte de `taskService.getTasksByProjectId`
     @GetMapping("/{id}/tasks")
-    public ResponseEntity<List<Task>> getTasksByProject(@PathVariable Long id) {
+    public ResponseEntity<Page<Task>> getTasksByProject(@PathVariable Long id, Pageable pageable) {
+        if (projectService.getProjectById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Page<Task> tasks = taskService.getTasksByProjectId(id, pageable);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
         return projectService.getProjectById(id)
-                .map(project -> ResponseEntity.ok(taskService.getTasksByProjectId(id)))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 }

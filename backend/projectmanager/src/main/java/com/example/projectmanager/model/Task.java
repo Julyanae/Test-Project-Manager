@@ -1,8 +1,12 @@
 package com.example.projectmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,11 +19,14 @@ public class Task {
     private String title;
     private String description;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
 
-
     @ManyToOne
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
+    @JsonBackReference
     private Project project;
 }
