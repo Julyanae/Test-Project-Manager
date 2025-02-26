@@ -1,0 +1,9 @@
+<div *ngFor="let project of projects">
+  <mat-card class="mb-3">
+    <mat-card-title>{{ project.name }}</mat-card-title>
+    <mat-card-content>
+      <p>{{ project.description }}</p>
+      <p>Du {{ project.startDate | date }} au {{ project.endDate | date }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

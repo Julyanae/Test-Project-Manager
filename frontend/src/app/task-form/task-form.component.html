@@ -1,0 +1,29 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Titre</mat-label>
+    <input matInput formControlName="title">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Statut</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="in_progress">In Progress</mat-option>
+      <mat-option value="completed">Completed</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date limite</mat-label>
+    <input matInput type="date" formControlName="dueDate">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="taskForm.invalid">
+    Enregistrer
+  </button>
+</form>

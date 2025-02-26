@@ -1,0 +1,25 @@
+# === IGNORER LES FICHIERS TEMPORAIRES ===
+*.log
+*.class
+*.jar
+*.war
+*.iml
+
+# === IGNORER LES FICHIERS DE VSCODE ET IDE ===
+.vscode/
+.idea/
+*.swp
+
+# === IGNORER LES FICHIERS BACKEND (Spring Boot) ===
+backend/target/
+backend/.mvn/
+backend/.idea/
+
+# === IGNORER LES FICHIERS FRONTEND (Angular) ===
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# === IGNORER LES FICHIERS SYSTÈME ===
+.DS_Store
+Thumbs.db
